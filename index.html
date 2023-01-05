@@ -4,10 +4,57 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/icon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
     <title>Mapty</title>
 </head>
 <body>
+    <div id="side-bar">
+        <div class="logo-con">
+            <img src="logo.png" alt="mapty" class="logo">
+        </div>
+        <div class="form__con">
+            <form action="" class="form">
+                <div class="form__item">
+                    <label for="type" class="form__label">Type</label>
+                    <select id="type" class="form__input">
+                        <option value="cycling">cycling</option>
+                        <option value="running">running</option>
+                    </select>
+                </div>
+                <div class="form__item">
+                    <label for="distance" class="form__label">Distance</label>
+                    <input type="text" placeholder="km" class="form__input" id="distance">
+                </div>
+                <div class="form__item">
+                    <label for="duration" class="form__label">Duration</label>
+                    <input type="text" placeholder="min" class="form__input" id="duration">
+                </div>
+                <div class="form__item">
+                    <label for="elevation" class="form__label">Elevation</label>
+                    <input type="text" placeholder="meters" class="form__input" id="elevation">
+                </div>
+                <!-- <div>
+                    <label for="cadence" class="form__label">cadence</label>
+                    <input type="text" placeholder="step/min" class="form__input" id="cadence">
+                </div> -->
+            </form>
+        </div>
+
+        <div class="foot">
+            <p class="foot__text">Developed by <a href="#" class="foot__link">S-Abdullahi</a></p>
+        </div>
+
+    </div>
+    <div id="map">
+
+    </div>
     
-    <script src="script.js"></script>
+    
 </body>
 </html>
