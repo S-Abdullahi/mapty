@@ -83,6 +83,10 @@ body{
     align-items: center;
 }
 
+.form__btn{
+    display: none;
+}
+
 select{
     font: inherit;
     color: var(--light-2);
