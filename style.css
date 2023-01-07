@@ -40,7 +40,7 @@ body{
     width: 10rem;
 }
 
-.form{
+.panel{
     background-color:var(--dark-2);
     display: grid;
     grid-template-columns: 50% 50%;
@@ -63,7 +63,7 @@ body{
     border-radius: 3px;
     border: 0;
     padding-left: 10px;
-    color: var(--light-2);
+    color: var(--light-3);
     background-color: var(--light-1);
 }
 
@@ -91,6 +91,40 @@ select{
 
 option:hover{
     background-color: var(--dark-1);
+}
+
+/* metric panel */
+.metric__card{
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.7rem;
+    color: var(--light-1);
+}
+
+.metric{
+    display: flex;
+    justify-content: space-between;
+}
+
+h2{
+    font-size: 1rem;
+}
+
+.unit, .value{
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.unit{
+    color: var(--light-2)
+}
+
+.card__border-running{
+    border-left: solid 5px red;
+}
+
+.card__border-cycling{
+    border-left: solid 5px yellow;
 }
 
 
