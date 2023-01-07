@@ -143,3 +143,7 @@ h2{
     color: var(--light-2);
     text-decoration: none;
 }
+
+.hidden{
+    display: none;
+}
