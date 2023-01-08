@@ -8,6 +8,20 @@ const inputElevation = document.querySelector('#elevation')
 
 let map, mapEvent
 
+class App {
+    constructor(){}
+
+    _getPosition(){}
+
+    _loadMap(postion){}
+
+    _showForm()
+
+    _toggleElevationField(){}
+
+    _newWorkout(){}
+}
+
 if(navigator.geolocation){
     navigator.geolocation.getCurrentPosition(function(position){    
         const {latitude, longitude} = position.coords

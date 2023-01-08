@@ -124,6 +124,7 @@ h2{
 }
 
 .card__border-running{
+    background-color: var(--dark-1);
     border-left: solid 5px red;
 }
 
