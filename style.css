@@ -83,6 +83,10 @@ body{
     align-items: center;
 }
 
+.form__item--hidden{
+    display: none;
+}
+
 .form__btn{
     display: none;
 }

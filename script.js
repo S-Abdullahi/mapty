@@ -2,25 +2,52 @@
 
 //elements
 const form = document.querySelector('.form')
+const inputType = document.querySelector('.form__input--type')
 const inputDistance = document.querySelector('#distance')
 const inputDuration = document.querySelector('#duration')
 const inputElevation = document.querySelector('#elevation')
+const inputCadence = document.querySelector('#cadence')
 
 let map, mapEvent
 
-class App {
-    constructor(){}
+// class App {
+//     #map
+//     #mapEvent
+//     constructor(){
+//         this._getPosition()
+//         this._showForm()
+//     }
 
-    _getPosition(){}
+//     _getPosition(){
+//         if(navigator.geolocation)
+//         navigator.geolocation.getCurrentPosition(this._loadMap.bind(this), ()=>{
+//             alert('you can not access the geolocation')
+//         })
+//     }
 
-    _loadMap(postion){}
+//     _loadMap(position){
+//         const {latitude,longitude} = position.coords
+//         const locationCord = [latitude,longitude]
+//         this.#map = L.map('map').setView(locationCord, 13)
 
-    _showForm()
+//         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+//          }).addTo(this.#map);
+//     }
 
-    _toggleElevationField(){}
+//     _showForm(){
+//         // this.#map.on('click',(mapE)=>{
+//         //     this.#mapEvent = mapE
+//         //     console.log(this.#mapEvent)
+//         // })
+//     }
 
-    _newWorkout(){}
-}
+//     _toggleElevationField(){}
+
+//     _newWorkout(){}
+// }
+
+// const app = new App()
 
 if(navigator.geolocation){
     navigator.geolocation.getCurrentPosition(function(position){    
@@ -63,4 +90,10 @@ form.addEventListener('submit',function(e){
     )
     .setPopupContent('workout')
     .openPopup();
+})
+
+inputType.addEventListener('change',()=>{
+    inputElevation.closest('.form__item').classList.toggle('form__item--hidden')
+    inputCadence.closest('.form__item').classList.toggle('form__item--hidden')
+    
 })
