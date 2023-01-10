@@ -8,31 +8,41 @@ class Workout{
        this.duration = duration
        this.distance = distance
     }
+
+    _setDescription(){
+        const months = ['january', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+        this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${months[this.date.getMonth()]} ${this.date.getDate()}`
+    }
 }
 
 class Cycling extends Workout{
+    type = 'cycling'
     constructor(cords, duration, distance,elevation){
         super(cords, duration, distance)
         this.elevation = elevation
-        this.calcSpeed
+        this.calcSpeed()
+        this._setDescription()
     }
 
     calcSpeed(){
         this.speed = this.distance / (this.duration/60)
-        return this.speed
+        return this.speed.toFixed(1)
     }
 }
 
 class Running extends Workout{
+    type = 'running'
     constructor(cords, duration, distance, cadence){
         super(cords, duration, distance)
         this.cadence = cadence
-        this.calcPace
+        this.calcPace()
+        this._setDescription()
     }
 
     calcPace(){
         this.pace = this.duration / this.distance
-        return this.pace
+        return this.pace.toFixed(1)
     }
 }
 
@@ -87,10 +97,9 @@ class App {
 
     _newWorkout(e){
         e.preventDefault()
-        inputDistance.value = inputDuration.value = inputElevation.value = ''
         const {lat,lng} = this.#mapEvent.latlng
-        const duration = inputDuration.value
-        const distance = inputDistance.value
+        const duration = +inputDuration.value
+        const distance = +inputDistance.value
         const type = inputType.value
 
         const validInput = (...inputs)=> inputs.every(input => Number.isFinite(input))
@@ -118,9 +127,13 @@ class App {
             this.#workout.push(workout)
         }
 
+        inputDistance.value = inputDuration.value = inputElevation.value = ''
+
         //render workout markup
         this._renderWorkoutMarkup(workout)
 
+        //render workout on sidebar
+        this._renderWorkout(workout)
         
     }
 
@@ -137,6 +150,60 @@ class App {
         )
         .setPopupContent('workout')
         .openPopup();
+    }
+
+    _renderWorkout(workout){
+        let html = `
+            <li class="cycling panel metric__card card__border-cycling" data-id="${workout.id}">
+            <h2>${workout.description}</h2>
+            <div class="metric">
+                <div class="metric__detail">
+                    <span class="activity_icon">${workout.type === 'running' ? "🏃‍♂️" : '🚴‍♂️'}</span>
+                    <span class="value">${workout.distance}</span>
+                    <span class="unit">KM</span>
+                </div>
+                <div class="metric__detail">
+                    <span class="activity_icon">⏲️</span>
+                    <span class="value">${workout.duration}</span>
+                    <span class="unit">MIN</span>
+                </div>
+        `
+
+        if (workout.type === 'running'){
+            html += `
+                        <div class="metric__detail">
+                        <span class="icon">⚡</span>
+                        <span class="value">${workout.pace}</span>
+                        <span class="unit">MIN/KM</span>
+                    </div>
+                    <div class="metric__detail">
+                        <span class="icon">🛤️</span>
+                        <span class="value">${workout.cadence}</span>
+                        <span class="unit">SPM</span>
+                    </div>
+                </div>
+            </li>
+            `
+        }
+
+        if(workout.type === 'cycling'){
+            html += `
+                        <div class="metric__detail">
+                        <span class="activity_icon">⚡</span>
+                        <span class="value">${workout.speed}</span>
+                        <span class="unit">KM/H</span>
+                    </div>
+                    <div class="metric__detail">
+                        <span class="activity_icon">🏔️</span>
+                        <span class="value">${workout.elevation}</span>
+                        <span class="unit">M</span>
+                    </div>
+                </div>
+            </li>
+            
+            `
+        }
+        form.insertAdjacentHTML('afterend', html)
     }
 }
 
