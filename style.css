@@ -50,6 +50,11 @@ body{
     border-radius:5px;
 }
 
+.form{
+    display: grid;
+    transition: all 1s, transform 1s;
+
+}
 
 .form__label{
     color: white;
@@ -155,4 +160,7 @@ h2{
 
 .hidden{
     display: none;
+    opacity: 0;
+    height: 0;
+    transform: translateY(-30rem);
 }

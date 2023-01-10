@@ -47,6 +47,7 @@ class Running extends Workout{
 }
 
 //elements
+const workoutCon = document.querySelector('.form__con')
 const form = document.querySelector('.form')
 const inputType = document.querySelector('.form__input--type')
 const inputDistance = document.querySelector('#distance')
@@ -57,12 +58,20 @@ const inputCadence = document.querySelector('#cadence')
 
 class App {
     #map
+    #mapZoomLevel = 13
     #mapEvent
     #workout = []
+
     constructor(){
+        //get user position
         this._getPosition()
+
+        //get localstorage
+        this._getLocalStorage()
+
         form.addEventListener('submit', this._newWorkout.bind(this))
         inputType.addEventListener('change', this._toggleElevationField)
+        workoutCon.addEventListener('click', this._moveToPopup.bind(this))
     }
 
     _getPosition(){
@@ -75,19 +84,28 @@ class App {
     _loadMap(position){
         const {latitude,longitude} = position.coords
         const locationCord = [latitude,longitude]
-        this.#map = L.map('map').setView(locationCord, 13)
+        this.#map = L.map('map').setView(locationCord, this.#mapZoomLevel)
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
          }).addTo(this.#map);
 
         this.#map.on('click',this._showForm.bind(this))
+
+        this.#workout.forEach((work)=>{
+            this._renderWorkoutMarkup(work)
+        })
     }
 
     _showForm(mapE){
         this.#mapEvent = mapE
         form.classList.remove('hidden')
         inputDistance.focus()
+    }
+
+    _hideForm(){
+        inputDistance.value = inputDuration.value = inputElevation.value = ''
+        form.classList.add('hidden')
     }
 
     _toggleElevationField(){
@@ -126,15 +144,17 @@ class App {
             workout = new Running([lat,lng],duration,distance,cadence)
             this.#workout.push(workout)
         }
-
-        inputDistance.value = inputDuration.value = inputElevation.value = ''
-
         //render workout markup
         this._renderWorkoutMarkup(workout)
 
         //render workout on sidebar
         this._renderWorkout(workout)
+
+        //hide form
+        this._hideForm()
         
+        //set workout to local storage
+        this._setLocalStorage()
     }
 
     _renderWorkoutMarkup(workout){
@@ -148,7 +168,7 @@ class App {
                 className: 'card__border-running'
             })
         )
-        .setPopupContent('workout')
+        .setPopupContent(`${workout.type=== 'running' ? '🏃' : '🚴' } ${workout.description}`)
         .openPopup();
     }
 
@@ -204,6 +224,39 @@ class App {
             `
         }
         form.insertAdjacentHTML('afterend', html)
+    }
+
+    _moveToPopup(e){
+        const workoutEl = e.target.closest('.metric__card')
+        if(!workoutEl) return
+
+        const workoutCard = this.#workout.find(work => work.id === workoutEl.dataset.id)
+
+        this.#map.setView(workoutCard.cords, this.#mapZoomLevel,{
+            animate: true,
+            pan: {
+                duration:1
+            }
+        })
+    }
+
+    _setLocalStorage(){
+        localStorage.setItem('workout', JSON.stringify(this.#workout))
+    }
+
+    _getLocalStorage(){
+        const data = JSON.parse(localStorage.getItem('workout'))
+
+        if(!data) return
+        this.#workout = data
+        this.#workout.forEach((work)=>{
+            this._renderWorkout(work)
+        })
+    }
+
+    reset(){
+        localStorage.removeItem('workout')
+        location.reload()
     }
 }
 
