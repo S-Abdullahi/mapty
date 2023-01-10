@@ -1,13 +1,5 @@
 'use strict';
 
-//elements
-const form = document.querySelector('.form')
-const inputType = document.querySelector('.form__input--type')
-const inputDistance = document.querySelector('#distance')
-const inputDuration = document.querySelector('#duration')
-const inputElevation = document.querySelector('#elevation')
-const inputCadence = document.querySelector('#cadence')
-
 class Workout{
     date = new Date()
     id = (Date.now() + '').slice(-10)
@@ -44,10 +36,19 @@ class Running extends Workout{
     }
 }
 
+//elements
+const form = document.querySelector('.form')
+const inputType = document.querySelector('.form__input--type')
+const inputDistance = document.querySelector('#distance')
+const inputDuration = document.querySelector('#duration')
+const inputElevation = document.querySelector('#elevation')
+const inputCadence = document.querySelector('#cadence')
+
 
 class App {
     #map
     #mapEvent
+    #workout = []
     constructor(){
         this._getPosition()
         form.addEventListener('submit', this._newWorkout.bind(this))
@@ -86,9 +87,45 @@ class App {
 
     _newWorkout(e){
         e.preventDefault()
-        inputDistance.value = inputDuration.value = inputElevation.value = 0
+        inputDistance.value = inputDuration.value = inputElevation.value = ''
         const {lat,lng} = this.#mapEvent.latlng
-        L.marker([lat,lng]).addTo(this.#map)
+        const duration = inputDuration.value
+        const distance = inputDistance.value
+        const type = inputType.value
+
+        const validInput = (...inputs)=> inputs.every(input => Number.isFinite(input))
+        const positiveInput = (...inputs)=> inputs.every(input => input > 0)
+        let workout
+
+        if(type === 'cycling'){
+            const elevation = Number(inputElevation.value)
+            if(!validInput(elevation, duration, distance) || !positiveInput(duration, distance)){
+               return alert('please enter a positive number')
+            }
+
+            workout = new Cycling([lat,lng],duration, distance, elevation)
+            this.#workout.push(workout)
+            
+        }
+
+        if(type === 'running'){
+            const cadence = Number(inputCadence.value)
+            if(!validInput(cadence, duration, distance) || !positiveInput(cadence, duration, distance)){
+                return alert('please enter a positive number')
+            }
+
+            workout = new Running([lat,lng],duration,distance,cadence)
+            this.#workout.push(workout)
+        }
+
+        //render workout markup
+        this._renderWorkoutMarkup(workout)
+
+        
+    }
+
+    _renderWorkoutMarkup(workout){
+        L.marker(workout.cords).addTo(this.#map)
         .bindPopup(
             L.popup({
                 maxWidth: 250,
