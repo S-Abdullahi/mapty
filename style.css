@@ -5,8 +5,8 @@
 }
 
 :root{
-    --dark-1:#354f52;
-    --dark-2: #52796f;
+    --dark-1:#370617;
+    --dark-2: #940f3e5c;
     --light-1: #e9ecef;
     --light-2: #adb5bd;
     --light-3: #6c757d;
@@ -16,9 +16,11 @@ body{
     font-family: 'Manrope', sans-serif;
     font: 62.5%;
     display: grid;
-    margin: 2rem;
-    grid-template-columns: 30% 70%;
+    padding: 2rem;
+    grid-template-columns: 35rem 70%;
     height: 100vh;
+    overscroll-behavior-y: none;
+
 }
 
 #side-bar{
@@ -27,7 +29,7 @@ body{
 }
 
 #map{
-    background-color: green;
+    background-color: var(--dark-2);
 }
 
 /* logo */
@@ -40,7 +42,7 @@ body{
     width: 10rem;
 }
 
-.panel{
+.panel, .form{
     background-color:var(--dark-2);
     display: grid;
     grid-template-columns: 50% 50%;
@@ -50,21 +52,25 @@ body{
     border-radius:5px;
 }
 
-.form{
-    display: grid;
-    transition: all 1s, transform 1s;
+.form__con{
+    height: 80vh;
+    overflow-y:scroll;
+    overflow-x: hidden;
+}
 
+.form__con::-webkit-scrollbar{
+    display: none;
 }
 
 .form__label{
     color: white;
-    font-weight: 400;
+    font-weight: 600;
     font-size: 1.1rem;
 }
 
 .form__input{
     width: 50%;
-    height: 1.7rem;
+    height: 2rem;
     border-radius: 3px;
     border: 0;
     padding-left: 10px;
@@ -110,7 +116,7 @@ option:hover{
 .metric__card{
     display: flex;
     flex-direction: column;
-    padding: 0.5rem 0.7rem;
+    padding: 1.5rem;
     color: var(--light-1);
 }
 
@@ -120,20 +126,20 @@ option:hover{
 }
 
 h2{
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
-.unit, .value{
-    font-size: 0.8rem;
-    font-weight: 400;
+.unit, .value, .activity_icon{
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .unit{
-    color: var(--light-2)
+    color: var(--light-2);
+    font-size: 0.8rem;
 }
 
 .card__border-running{
-    background-color: var(--dark-1);
     border-left: solid 5px red;
 }
 
@@ -150,7 +156,7 @@ h2{
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 4rem
+    bottom: 0.5rem
 }
 
 .foot__link{
@@ -158,9 +164,29 @@ h2{
     text-decoration: none;
 }
 
-.hidden{
+.foot__link:hover{
+    color: white;
+}
+
+.form.hidden{
     display: none;
     opacity: 0;
     height: 0;
     transform: translateY(-30rem);
 }
+
+.leaflet-popup .leaflet-popup-content {
+    font-size: 1rem;
+  }
+  
+.leaflet-popup .leaflet-popup-tip {
+    background-color: var(--dark-1);
+  }
+  
+.running-popup .leaflet-popup-content-wrapper {
+    border-left: 5px solid red;
+  }
+.cycling-popup .leaflet-popup-content-wrapper {
+    border-left: 5px solid yellow;
+  }
+  

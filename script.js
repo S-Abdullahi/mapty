@@ -161,11 +161,11 @@ class App {
         L.marker(workout.cords).addTo(this.#map)
         .bindPopup(
             L.popup({
-                maxWidth: 250,
+                maxWidth: 300,
                 minWidth: 100,
                 autoClose: false,
                 closeOnClick: false,
-                className: 'card__border-running'
+                className: `${workout.type}-popup`
             })
         )
         .setPopupContent(`${workout.type=== 'running' ? '🏃' : '🚴' } ${workout.description}`)
@@ -174,7 +174,7 @@ class App {
 
     _renderWorkout(workout){
         let html = `
-            <li class="cycling panel metric__card card__border-cycling" data-id="${workout.id}">
+            <li class="cycling panel metric__card card__border-${workout.type}" data-id="${workout.id}">
             <h2>${workout.description}</h2>
             <div class="metric">
                 <div class="metric__detail">
