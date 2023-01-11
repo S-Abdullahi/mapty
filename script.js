@@ -54,6 +54,7 @@ const inputDistance = document.querySelector('#distance')
 const inputDuration = document.querySelector('#duration')
 const inputElevation = document.querySelector('#elevation')
 const inputCadence = document.querySelector('#cadence')
+const resetBtn = document.querySelector('.reset-btn')
 
 
 class App {
@@ -72,6 +73,9 @@ class App {
         form.addEventListener('submit', this._newWorkout.bind(this))
         inputType.addEventListener('change', this._toggleElevationField)
         workoutCon.addEventListener('click', this._moveToPopup.bind(this))
+
+        //reset button
+        resetBtn.addEventListener('click', this.reset)
     }
 
     _getPosition(){
